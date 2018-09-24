@@ -21,7 +21,7 @@ hashTable::hashTable(int size) {
 // 2 if rehash fails.
 int hashTable::insert(const std::string &key, void *pv) {
         int index = hash(key);
-        if (filled >= capacity/2)
+        if (filled*2 >= capacity)
                 if (rehash() == false)
                         return 2;
 
