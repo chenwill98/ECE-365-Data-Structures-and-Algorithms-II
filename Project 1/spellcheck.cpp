@@ -33,6 +33,7 @@ int main() {
         end = clock();
         elapsed_secs = ((double)(end-begin)) / CLOCKS_PER_SEC;
         std::cout << "Total time (in seconds) to check document: " << elapsed_secs << std::endl;
+
         return 0;
 }
 
@@ -50,6 +51,7 @@ void loadDict(std::string dict_path) {
                 exit(0);
         }
 
+
         while (data_file >> word) {
                 length = word.length();
                 for (int i = 0; i < length; i++)
@@ -63,7 +65,7 @@ void spellChecker(std::string in_path, std::string out_path) {
         std::ifstream in_file;
         std::ofstream out_file;
         std::string line;
-        int line_count = 0, token_size = 0;
+        int line_count = 0;
 
         std::cout << "Enter name of input file: ";
         std::cin >> in_path;
@@ -84,16 +86,15 @@ void spellChecker(std::string in_path, std::string out_path) {
 
         while (!in_file.eof()) {
                 std::getline(in_file, line);
-                token_size = tokens.size();
                 line_count++;
                 parse(line);
-                for(int i = 0; i < token_size; i++) {
+                for(int i = 0; i < tokens.size(); i++) {
                         if (tokens[i].length() <= 20 && !hasDigit(tokens[i]) && !dictionary.contains(tokens[i]))
                                 out_file << "Unknown word at line " << line_count << ": " << tokens[i] << std::endl;
                         else if (tokens[i].length() > 20 && !hasDigit(tokens[i]))
                                 out_file << "Long word at line " << line_count << ", starts: " << tokens[i].substr(0, 20) << std::endl;
                 }
-                tokens.clear(); //Maybe change this to shrink_to_fit() or just don't clear it every time?
+                tokens.clear();
         }
         in_file.close();
         out_file.close();
@@ -105,13 +106,13 @@ void parse(std::string line) {
         int length = line.length();
         for (int i = 0; i < length; i++)
                 line[i] = std::tolower(line[i]);
+
         std::sregex_token_iterator begin(line.begin(), line.end(), re), end;
         std::copy(begin, end, std::back_inserter(tokens));
 }
 
 bool hasDigit(std::string word) {
-        int length = word.length();
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < word.length(); i++)
                 if(isdigit(word[i]))
                         return true;
         return false;
