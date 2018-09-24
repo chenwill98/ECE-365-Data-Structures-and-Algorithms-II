@@ -21,7 +21,6 @@ hashTable::hashTable(int size) {
 // 2 if rehash fails.
 int hashTable::insert(const std::string &key, void *pv) {
         int index = hash(key);
-        //First needs to check if the space in the hash table is occupied, then see if it's lazily deleted
         if (filled >= capacity/2)
                 if (rehash() == false)
                         return 2;
@@ -40,11 +39,11 @@ int hashTable::insert(const std::string &key, void *pv) {
                         index = 0;
         }
 
+        filled++;
         data[index].key = key;
         data[index].isOccupied = true;
         data[index].isDeleted = false;
         data[index].pv = pv;
-        filled++;
         return 0;
 }
 
@@ -82,6 +81,8 @@ int hashTable::findPos(const std::string &key) {
 // Returns true on success, false if memory allocation fails.
 bool hashTable::rehash() {
         int prime_prime = getPrime(2*capacity);
+        capacity = prime_prime;
+        filled = 0;
         std::vector<hashItem> temp_data = data;
 
         try {
@@ -90,16 +91,13 @@ bool hashTable::rehash() {
                 return false;
         }
 
-        capacity = prime_prime;
-        filled = 0;
-
         for (int i = 0; i < data.size(); i++)
                 data[i].isOccupied = data[i].isOccupied = false;
 
         for (int i = 0; i < temp_data.size(); i++)
                 if (temp_data[i].isOccupied && !temp_data[i].isDeleted)
                         insert(temp_data[i].key, temp_data[i].pv);
-
+        return true;
 }
 
 // Return a prime number at least as large as size.
