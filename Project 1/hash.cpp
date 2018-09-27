@@ -1,3 +1,7 @@
+//William Chen
+//Professor Sable
+//ECE-365 Project 1
+
 #include "hash.h"
 
 int prime_sizes[] = {100003, 200003, 400009, 800011, 1600033, 3200003, 6400013, 12800009, 25600013, 51200027, 102400007, 204800017, 409600001, 819200003, 1638400013};
@@ -10,7 +14,6 @@ hashTable::hashTable(int size) {
 
         for (int i = 0; i < data.size(); i++)
                 data[i].isOccupied = data[i].isOccupied = false;
-
 }
 
 // Insert the specified key into the hash table.

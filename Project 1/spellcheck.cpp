@@ -1,3 +1,7 @@
+//William Chen
+//Professor Sable
+//ECE-365 Project 1
+
 #include "hash.h"
 #include <iostream>
 #include <fstream>
@@ -37,6 +41,7 @@ int main() {
         return 0;
 }
 
+// Loads the dictionary into the hashtable
 void loadDict(std::string dict_path) {
         std::fstream data_file;
         std::string word;
@@ -51,7 +56,6 @@ void loadDict(std::string dict_path) {
                 exit(0);
         }
 
-
         while (data_file >> word) {
                 length = word.length();
                 for (int i = 0; i < length; i++)
@@ -61,6 +65,7 @@ void loadDict(std::string dict_path) {
         data_file.close();
 }
 
+// Performs the actual spellchecking itself
 void spellChecker(std::string in_path, std::string out_path) {
         std::ifstream in_file;
         std::ofstream out_file;
@@ -74,7 +79,6 @@ void spellChecker(std::string in_path, std::string out_path) {
                 std::cout << "Error: could not open " << in_path << std::endl;
                 exit(0);
         }
-
 
         std::cout << "Enter name of output file: ";
         std::cin >> out_path;
@@ -99,9 +103,9 @@ void spellChecker(std::string in_path, std::string out_path) {
         in_file.close();
         out_file.close();
 }
-//Parses each line passed to the function
-//After making the line lowercase, it divides it
-//into words based on whitespace and special characters
+// Parses each line passed to the function
+// After making the line lowercase, it divides it into words based on whitespace/special characters
+// It pushes the tokens into the vector where it will be spellchecked
 void parse(std::string line) {
         int length = line.length();
         for (int i = 0; i < length; i++)
@@ -111,6 +115,7 @@ void parse(std::string line) {
         std::copy(begin, end, std::back_inserter(tokens));
 }
 
+// Simple function to check if a word has a number in it
 bool hasDigit(std::string word) {
         for (int i = 0; i < word.length(); i++)
                 if(isdigit(word[i]))
