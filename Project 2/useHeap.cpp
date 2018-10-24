@@ -49,6 +49,8 @@ int main()
   heap myHeap1(capacity);
 
   while (1) {
+
+
     cout << "\nOptions:" << endl;
     cout << "1 - Insert a new item into the binary heap" << endl;
     cout << "2 - Set the key of a specified item" << endl;
