@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <math.h>
 #include "hash.h"
 
 class heap {
@@ -58,9 +60,7 @@ class heap {
     //   0 on success
     //   1 if a node with the given id does not exist
     int remove(const std::string &id, int *pKey = nullptr, void *ppData = nullptr);
-
   private:
-
     class node { // An inner class within heap
     public:
       std::string id; // The id of this node
@@ -68,9 +68,8 @@ class heap {
       void *pData; // A pointer to the actual data
     };
 
-    // Declare private data members
-    int capacity;
-    int size;
+    int filled; // Number of elements in binary heap
+    int capacity; // Capacity of binary heap
     std::vector<node> data; // The actual binary heap
     hashTable *mapping; // maps ids to node pointers
 
@@ -82,6 +81,8 @@ class heap {
 
     // getPos - returns the position of a node in the binary heap
     int getPos(node *pn);
+
+
 };
 
 #endif
