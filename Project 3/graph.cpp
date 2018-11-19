@@ -38,6 +38,12 @@ void graph::insert(std::string &line) {
         cur->adj.push_back(new_edge);
 }
 
+//checks to see if the node is valid
+bool graph::validNode(std::string &node) {
+        bool valid = graph_nodes->contains(node);
+        return valid;
+}
+
 //applies Dijkstra's algorithm on a graph, given a root node
 int graph::dijkstra(std::string &root) {
         node * cur;

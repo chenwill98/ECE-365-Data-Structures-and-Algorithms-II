@@ -16,7 +16,7 @@ int main () {
 
         if (construct(root, g) == 0) {
                 clock_t begin = clock();
-                g.dijkstra(root);
+                g.dijkstra(root); //executes the algorithm
                 clock_t end = clock();
                 double elapsed_secs = ((double)(end-begin)) / CLOCKS_PER_SEC;
                 std::cout << "Total time (in seconds) to apply Dijkstra's algorithm: " << elapsed_secs << std::endl;
@@ -28,6 +28,7 @@ int main () {
         }
 }
 
+// constructs the graph by passing the input file line by line
 int construct (std::string &root, graph &g) {
         std::ifstream data_file;
         std::string in_file, line;
@@ -41,11 +42,13 @@ int construct (std::string &root, graph &g) {
                 return -1;
         }
 
-        std::cout << "Enter a valid vertex id for the staring vertex: ";
-        std::cin >> root;
-
         while (std::getline(data_file, line))
                 g.insert(line);
+
+        while (!g.validNode(root)) {
+                std::cout << "Enter a valid vertex id for the staring vertex: ";
+                std::cin >> root;
+        }
 
         data_file.close();
         return 0;

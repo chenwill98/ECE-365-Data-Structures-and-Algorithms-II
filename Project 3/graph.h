@@ -3,11 +3,8 @@
 
 #include <vector>
 #include <string>
-#include <algorithm>
 #include <iterator>
 #include <iostream>
-#include <sstream>
-#include <math.h>
 #include <list>
 #include <bits/stdc++.h>
 #include "heap.h"
@@ -22,21 +19,22 @@ class graph {
         //insert the node into the graph
         void insert(std::string &line);
 
+        //checks to see if the node is valid
+        bool validNode(std::string &node);
+
         //applies Dijkstra's algorithm on a graph, given a root node
         int dijkstra(std::string &start);
 
-        //output the graph
+        //output the graph in the proper format
         void output(std::string &out_path);
 
 
         private:
-        int size;
-
         class edge;
         class node;
-
-        std::list<node *> node_list; //list that holds all of the vertices in the graph
+        int size;
         hashTable * graph_nodes; //hashtable for quick lookup of each node
+        std::list<node *> node_list; //list that holds all of the vertices in the graph
 
         class edge {
         public:
@@ -46,11 +44,10 @@ class graph {
 
         class node {
         public:
+                int dist;
+                bool known;
                 std::string id;
                 std::list<edge> adj; //list of all adjacent edges
-
-                bool known;
-                int dist;
                 std::list<std::string> path;
         };
 };
