@@ -11,7 +11,6 @@ int construct (std::string &root, graph &g);
 
 int main () {
         std::string root, out_path;
-
         graph g;
 
         if (construct(root, g) == 0) {
@@ -24,7 +23,7 @@ int main () {
                 std::cout << "Enter name of output file: ";
                 std::cin >> out_path;
 
-                g.output(out_path);
+                g.output(out_path); //outputs the graph
         }
 }
 

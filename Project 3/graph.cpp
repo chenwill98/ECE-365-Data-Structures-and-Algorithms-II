@@ -46,6 +46,7 @@ bool graph::validNode(std::string &node) {
 
 //applies Dijkstra's algorithm on a graph, given a root node
 int graph::dijkstra(std::string &root) {
+        int new_cost;
         node * cur;
         std::list<node*>::const_iterator it = node_list.begin(), end = node_list.end();
         for (; it != end; ++it) {
@@ -56,7 +57,6 @@ int graph::dijkstra(std::string &root) {
         heap queue(size);
         node * start = (node *)graph_nodes->getPointer(root);
         start->dist = 0;
-        start->known = true;
         start->path.push_back(root);
         for (it = node_list.begin(); it != end; ++it) {
                 queue.insert((*it)->id, (*it)->dist, *it);
@@ -64,13 +64,15 @@ int graph::dijkstra(std::string &root) {
 
         for (int i = 0; i < size; i++) {
                 queue.deleteMin(nullptr, nullptr, &cur);
-                for (std::list<edge>::const_iterator it = cur->adj.begin(), end = cur->adj.end(); it != end && cur->dist != INT_MAX; ++it) {
-                        if (it->dest->dist > (it->cost + cur->dist) && !it->dest->known) {
-                                queue.setKey(it->dest->id, (it->cost + cur->dist));
-                                it->dest->dist = (it->cost + cur->dist);
-                                it->dest->path.clear();
-                                it->dest->path.insert(it->dest->path.begin(), cur->path.begin(), cur->path.end());
-                                it->dest->path.push_back(it->dest->id);
+                for (std::list<edge>::const_iterator it = cur->adj.begin(), end = cur->adj.end(); it != end; ++it) {
+                        new_cost = it->cost + cur->dist;
+                        auto next = it->dest; //to make it easier to keep track of for me
+                        if (next->dist > new_cost && !next->known) {
+                                queue.setKey(next->id, new_cost);
+                                next->dist = (it->cost + cur->dist);
+                                next->path.clear();
+                                next->path.insert(next->path.begin(), cur->path.begin(), cur->path.end());
+                                next->path.push_back(next->id);
                         }
                 }
                 cur->known = true;

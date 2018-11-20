@@ -47,7 +47,7 @@ class graph {
                 int dist;
                 bool known;
                 std::string id;
-                std::list<edge> adj; //list of all adjacent edges
+                std::list<edge> adj;
                 std::list<std::string> path;
         };
 };
